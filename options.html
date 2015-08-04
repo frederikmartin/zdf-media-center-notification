@@ -1,0 +1,35 @@
+<!--
+  An option page for configuring ZDF API calls.
+-->
+<!doctype html>
+<html>
+  <head>
+    <title>ZDF media center alert</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="options.js"></script>
+  </head>
+  <body>
+    <h1>
+      <img src="images/zdf-logo_64x64.png" alt="ZDF media center">
+      ZDF media center alert
+    </h1>
+    <h2>Options</h2>
+    <form id="options">
+      <input type="checkbox" name="isActivated" checked>
+      Query ZDF media center every
+      <select name="frequency">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+        <option>20</option>
+        <option>25</option>
+        <option>30</option>
+      </select>
+      minute(s).
+    </form>
+  </body>
+</html>
