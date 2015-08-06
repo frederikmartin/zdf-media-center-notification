@@ -15,7 +15,7 @@ function search(series) {
     $('.result').removeClass('loading');
     var response = x.responseXML;
     searchOutput(response);
-  };
+  }
 
   x.ontimeout = function() {
     $('.result').removeClass('loading');
@@ -25,7 +25,7 @@ function search(series) {
   x.onerror = function() {
     $('.result').removeClass('loading');
     errorOutput('Network error. Please try again');
-  };
+  }
   
   x.send();
 }
@@ -77,7 +77,7 @@ function subscribe(id) {
     var $xml = $(response);
     persistSubscription($xml.find('assetId').text(), $xml.find('title').eq(0).text(), $xml.find('airtime').text());
     loadSubscription();
-  };
+  }
 
   x.ontimeout = function() {
     errorOutput('Subscription failed. Please try again');
@@ -85,7 +85,7 @@ function subscribe(id) {
   
   x.onerror = function() {
     errorOutput('Subscription failed. Please try again');
-  };
+  }
   
   x.send();
 }
@@ -101,7 +101,7 @@ function persistSubscription(assetId, title, airtime) {
       if (subscription[i].id === assetId) {
         seriesExists = true;
       }
-    };
+    }
     if (!seriesExists) {
       subscription.push({ 'id': assetId, 'title': title, 'lastEpisode': airtime });
       localStorage.setItem('subscription', JSON.stringify(subscription));
@@ -120,7 +120,7 @@ function loadSubscription() {
     for (var i = 0; i < subscription.length; i++) {
       $('.subscription ul').append('<li><span class="title">' + subscription[i].title + '</span><span class="last">last episode: ' + subscription[i].lastEpisode + '</span><span class="unsubscribe">(<a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></li>');
       addClickBinding(subscription[i].id, 'unsubscribe');
-    };
+    }
   }
 }
 
@@ -131,7 +131,7 @@ function unsubscribe(assetId) {
       if (subscription[i].id === assetId) {
         subscription.splice(i, 1);
       }
-    };
+    }
     localStorage.setItem('subscription', JSON.stringify(subscription));
     loadSubscription();
   }
