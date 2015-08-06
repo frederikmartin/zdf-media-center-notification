@@ -2,7 +2,7 @@
   "name": "ZDF media center alert",
   "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Subscribe to your favorite video series in ZDF media center and get prompt notifications about updates. Updates will be served in WebM format to avoid the slow ZDF media center (Flash).",
+  "description": "Subscribe to your favorite video series in ZDF media center and get prompt notifications about updates.",
   "icons": {
     "16": "images/zdf-logo_16x16.png",
     "48": "images/zdf-logo_48x48.png",
