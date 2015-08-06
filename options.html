@@ -6,28 +6,34 @@
   <head>
     <title>ZDF media center alert</title>
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <script src="options.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/options.js"></script>
   </head>
   <body>
     <h1>
       <img src="images/zdf-logo_64x64.png" alt="ZDF media center">
       ZDF media center alert
     </h1>
+    <h2>Series</h2>
+    <form id="series">
+      Search ZDF media center to subscribe for your favorite series:
+      <input type="text" name="search">
+      <input type="submit" value="Search">
+    </form>
+    <div class="result"></div>
+    <div class="error"></div>
+    <div class="subscription"></div>
     <h2>Options</h2>
     <form id="options">
       <input type="checkbox" name="isActivated" checked>
-      Query ZDF media center every
+      Check ZDF media center every
       <select name="frequency">
         <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
         <option>5</option>
         <option>10</option>
         <option>15</option>
-        <option>20</option>
-        <option>25</option>
         <option>30</option>
+        <option>60</option>
       </select>
       minute(s).
     </form>

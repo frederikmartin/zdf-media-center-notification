@@ -9,12 +9,13 @@
     "128": "images/zdf-logo_128x128.png"
   },
   "permissions": [
-    "http://www.zdf.de/ZDFmediathek/xmlservice/web/*",
-    "notifications"
+    "https://www.zdf.de/ZDFmediathek/xmlservice/web/*",
+    "notifications",
+    "storage"
   ],
   "options_page": "options.html",
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["js/background.js"]
   },
   "web_accessible_resources": [
     "images/zdf-logo_48x48.png"

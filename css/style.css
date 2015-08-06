@@ -17,3 +17,60 @@ h2 {
   padding: 3px 5px;
   font-size: 100%
 }
+
+.result {
+  margin: 10px 0;
+}
+
+.result .title {
+  font-weight: bold;
+  width: 180px;
+  margin-right: 10px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow:hidden !important;
+  text-overflow: ellipsis;
+}
+
+.result .subscribe {
+  width: auto;
+  display: inline-block;
+}
+
+.error {
+  color: #ff0000;
+}
+
+.loading {
+  width: 20px;
+  height: 20px;
+  background: url('../images/loading.gif') no-repeat center top;
+  background-size: 20px;
+}
+
+.subscription {
+  border-top: 1px solid #ebeff9;
+  margin: 10px 0;
+  padding-top: 10px;
+}
+
+.subscription .title {
+  font-weight: bold;
+  width: 180px;
+  margin-right: 10px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow:hidden !important;
+  text-overflow: ellipsis;
+}
+
+.subscription .last {
+  width: auto;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.subscription .unsubscribe {
+  width: auto;
+  display: inline-block;
+}
