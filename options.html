@@ -25,17 +25,27 @@
     <div class="subscription"></div>
     <h2>Options</h2>
     <form id="options">
-      <input type="checkbox" name="isActivated" checked>
-      Check ZDF media center every
-      <select name="frequency">
-        <option>1</option>
-        <option>5</option>
-        <option>10</option>
-        <option>15</option>
-        <option>30</option>
-        <option>60</option>
-      </select>
-      minute(s).
+      <p>
+        <input type="checkbox" name="isActivated" checked>
+        Check ZDF media center every
+        <select name="frequency">
+          <option>1</option>
+          <option>5</option>
+          <option>10</option>
+          <option>15</option>
+          <option>30</option>
+          <option>60</option>
+        </select>
+        minute(s).
+      </p>
+      <p>
+        Video quality:
+        <select name="quality">
+          <option value="low">low</option>
+          <option value="high">high</option>
+          <option value="veryhigh">best</option>
+        </select>
+      </p>
     </form>
   </body>
 </html>

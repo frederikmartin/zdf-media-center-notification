@@ -64,7 +64,7 @@ function addClickBinding(id, action) {
 
 function subscribe(id) {
   // TODO: Store API calls in generic method
-  
+
   $('.error').empty().hide();
 
   var apiCall = API_URL + 'aktuellste?id=' + encodeURIComponent(id) + '&maxLength=1';
@@ -137,6 +137,12 @@ function unsubscribe(assetId) {
   }
 }
 
+function loadOptions() {
+  options.isActivated.checked = JSON.parse(localStorage.isActivated);
+  options.frequency.value = localStorage.frequency;
+  options.quality.value = localStorage.quality;
+}
+
 function ghost(isDeactivated) {
   options.style.color = isDeactivated ? 'graytext' : 'black';
   options.frequency.disabled = isDeactivated;
@@ -151,18 +157,20 @@ window.addEventListener('load', function() {
   }
 
   loadSubscription();
-
-  options.isActivated.checked = JSON.parse(localStorage.isActivated);
-  options.frequency.value = localStorage.frequency;
+  loadOptions();
 
   if (!options.isActivated.checked) { ghost(true); }
 
   options.isActivated.onchange = function() {
     localStorage.isActivated = options.isActivated.checked;
     ghost(!options.isActivated.checked);
-  };
+  }
 
   options.frequency.onchange = function() {
     localStorage.frequency = options.frequency.value;
-  };
+  }
+
+  options.quality.onchange = function() {
+    localStorage.quality = options.quality.value;
+  }
 });
