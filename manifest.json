@@ -1,6 +1,6 @@
 {
   "name": "ZDF media center alert",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "manifest_version": 2,
   "description": "Subscribe to your favorite video series in ZDF media center and get prompt notifications about updates.",
   "icons": {

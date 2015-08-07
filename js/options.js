@@ -63,8 +63,6 @@ function addClickBinding(id, action) {
 }
 
 function subscribe(id) {
-  // TODO: Store API calls in generic method
-
   $('.error').empty().hide();
 
   var apiCall = API_URL + 'aktuellste?id=' + encodeURIComponent(id) + '&maxLength=1';
@@ -118,7 +116,11 @@ function loadSubscription() {
     var subscription = JSON.parse(localStorage.getItem('subscription'));
     $('.subscription').append('<p>Your current subscription:</p><ul></ul>');
     for (var i = 0; i < subscription.length; i++) {
-      $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">last episode: ' + subscription[i].lastEpisode + '</span><span class="unsubscribe">(<a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></div></li>');
+      if (subscription[i].lastEpisode !== '') {
+        $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">last episode: ' + subscription[i].lastEpisode + '</span><span class="unsubscribe">(<a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></div></li>');
+      } else {
+        $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">no recent episode available</span><span class="unsubscribe">(<a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></div></li>');
+      }
       addClickBinding(subscription[i].id, 'unsubscribe');
     }
   }
@@ -149,8 +151,6 @@ function ghost(isDeactivated) {
 }
 
 window.addEventListener('load', function() {
-  // TODO: Use chrome.storage API instead of localStorage API
-
   series.onsubmit = function() {
     search(series.search.value);
     return false;

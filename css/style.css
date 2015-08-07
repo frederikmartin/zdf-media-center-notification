@@ -76,6 +76,7 @@ h2 {
 
 .subscription .last {
   width: auto;
+  min-width: 185px;
   margin-right: 10px;
   display: inline-block;
 }
