@@ -4,7 +4,7 @@ Subscribe to your favorite video series in ZDF media center and get prompt notif
 
 **IMPORTANT:** This is not an official chrome extension from ZDF.
 
-[ZDF media center notification in Chrome Web Store](https://chrome.google.com/webstore/detail/zdf-media-center-notification/fhikejmocbmgaomkcagdmjndfhbpdhpk)
+[ZDF media center notification in Chrome Web Store](https://chrome.google.com/webstore/detail/zdf-media-center-notifica/gminciihejnpdmenmfdfnieipnodjhog)
 
 Option page in Google Chrome:
 
