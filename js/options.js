@@ -39,7 +39,7 @@ function searchOutput(response) {
   if ($xml.find('broadcasts').children().length > 0) {
     $('.result').append('<p>Matching series:</p><ul></ul>');
     $xml.find('broadcasts').children().each(function() {
-      $('.result ul').append('<li><span class="title">' + $(this).text() + '</span><span class="subscribe">(<a href="#" id="' + $(this).attr('id') + '" alt="subscribe: ' + $(this).text() + '" title="subscribe: ' + $(this).text() + '">subscribe</a>)</span></li>');
+      $('.result ul').append('<li><div class="series"><span class="title">' + $(this).text() + '</span><span class="subscribe">(<a href="#" id="' + $(this).attr('id') + '" alt="subscribe: ' + $(this).text() + '" title="subscribe: ' + $(this).text() + '">subscribe</a>)</span></div></li>');
       addClickBinding($(this).attr('id'), 'subscribe');
     });
   } else {
@@ -118,7 +118,7 @@ function loadSubscription() {
     var subscription = JSON.parse(localStorage.getItem('subscription'));
     $('.subscription').append('<p>Your current subscription:</p><ul></ul>');
     for (var i = 0; i < subscription.length; i++) {
-      $('.subscription ul').append('<li><span class="title">' + subscription[i].title + '</span><span class="last">last episode: ' + subscription[i].lastEpisode + '</span><span class="unsubscribe">(<a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></li>');
+      $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">last episode: ' + subscription[i].lastEpisode + '</span><span class="unsubscribe">(<a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></div></li>');
       addClickBinding(subscription[i].id, 'unsubscribe');
     }
   }

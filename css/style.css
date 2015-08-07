@@ -22,6 +22,11 @@ h2 {
   margin: 10px 0;
 }
 
+.result .series {
+  -webkit-display: inline-flex;
+  display: inline-flex;
+}
+
 .result .title {
   font-weight: bold;
   width: 180px;
@@ -52,6 +57,11 @@ h2 {
   border-top: 1px solid #ebeff9;
   margin: 10px 0;
   padding-top: 10px;
+}
+
+.subscription .series {
+  -webkit-display: inline-flex;
+  display: inline-flex;
 }
 
 .subscription .title {
