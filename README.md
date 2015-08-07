@@ -9,3 +9,7 @@ Subscribe to your favorite video series in ZDF media center and get prompt notif
 Option page in Google Chrome:
 
 ![Option page in Google Chrome](/../master/doc/zdf-media-center-alert_screenshot-options-page_1280x800.png?raw=true)
+
+Video playback of WebM files in Chrome:
+
+![Video playback of WebM files in Chrome](/../master/doc/zdf-media-center-alert_screenshot-video-playback-page_1280x800.png?raw=true)
