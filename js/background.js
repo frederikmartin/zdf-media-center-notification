@@ -52,13 +52,17 @@ function queryZDF(id, lastEpisode) {
   Displays a notification.
 */
 function show(title, url) {
-  var notification = new Notification(title, {
-    icon: 'images/zdf-logo_48x48.png',
-    body: url
+  var options = {
+    type: 'basic',
+    title: title,
+    message: "New episode available.\nClick here to watch it.",
+    iconUrl: 'images/zdf-logo_48x48.png'
+  };
+
+  chrome.notifications.create('newEpisode', options, function() {});
+  chrome.notifications.onClicked.addListener(function(newEpisode) {
+    window.open(url);
   });
-  notification.onclick = function() {
-    window.open(notification.body);
-  }
 }
 
 /*
