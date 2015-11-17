@@ -1,23 +1,24 @@
 {
-  "name": "ZDF media center notification",
-  "version": "1.0.1",
-  "manifest_version": 2,
-  "description": "Subscribe to your favorite video series in ZDF media center and get prompt notifications about updates.",
-  "icons": {
-    "16": "images/zdf-logo_16x16.png",
-    "48": "images/zdf-logo_48x48.png",
-    "128": "images/zdf-logo_128x128.png"
-  },
-  "permissions": [
-    "https://www.zdf.de/ZDFmediathek/xmlservice/web/*",
-    "notifications",
-    "storage"
-  ],
-  "options_page": "options.html",
-  "background": {
-    "scripts": ["js/jquery-2.1.4.min.js", "js/moment-2.10.6.min.js", "js/background.js"]
-  },
-  "web_accessible_resources": [
-    "images/zdf-logo_48x48.png"
-  ]
+    "name": "ZDF media center notification",
+    "version": "1.0.1",
+    "manifest_version": 2,
+    "description": "Subscribe to your favorite video series in ZDF media center and get prompt notifications about updates.",
+    "icons": {
+        "16": "images/zdf-logo_16x16.png",
+        "48": "images/zdf-logo_48x48.png",
+        "128": "images/zdf-logo_128x128.png"
+    },
+    "permissions": [
+        "https://www.zdf.de/ZDFmediathek/xmlservice/web/*",
+        "notifications",
+        "storage"
+    ],
+    "options_page": "options.html",
+    "background": {
+        "scripts": ["js/jquery-2.1.4.min.js", "js/moment-2.10.6.min.js", "js/background.js"],
+        "persistent": true
+    },
+    "web_accessible_resources": [
+        "images/zdf-logo_48x48.png"
+    ]
 }
