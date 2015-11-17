@@ -18,6 +18,11 @@ h2 {
     font-size: 100%
 }
 
+.search {
+    border-top: 1px solid #ebeff9;
+    padding-top: 10px;
+}
+
 .result {
     margin: 10px 0;
 }
@@ -37,7 +42,7 @@ h2 {
     text-overflow: ellipsis;
 }
 
-.result .subscribe {
+.result .subscribe, .subscription .check-now, .subscription .unsubscribe {
     width: auto;
     display: inline-block;
 }
@@ -54,9 +59,7 @@ h2 {
 }
 
 .subscription {
-    border-top: 1px solid #ebeff9;
     margin: 10px 0;
-    padding-top: 10px;
 }
 
 .subscription .series {
@@ -78,15 +81,5 @@ h2 {
     width: auto;
     min-width: 185px;
     margin-right: 10px;
-    display: inline-block;
-}
-
-.subscription .check-now {
-    width: auto;
-    display: inline-block;
-}
-
-.subscription .unsubscribe {
-    width: auto;
     display: inline-block;
 }
