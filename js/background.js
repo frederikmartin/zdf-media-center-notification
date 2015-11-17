@@ -5,7 +5,7 @@
 
     /*
         Check subscriptions for updates.
-    */
+     */
     function checkSubscriptionsForUpdates() {
         var subscription = JSON.parse(localStorage.getItem('subscription'));
         for (var i = 0; i < subscription.length; i++) {
@@ -15,7 +15,7 @@
 
     /*
         Query ZDF API.
-    */
+     */
     function queryZDF(id, lastEpisode) {
         var apiCall = API_URL + 'beitragsDetails?id=' + encodeURIComponent(id) + '&ak=web';
         var x = new XMLHttpRequest();
@@ -36,7 +36,7 @@
                 }
             });
 
-            if (moment(lastEpisode, 'DD.MM.YYYY h:mm') < moment(airtime, 'DD.MM.YYYY h:mm')) {
+            if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
                 show(title, url);
                 updateLastEpisode(id, airtime);
             }
@@ -51,7 +51,7 @@
 
     /*
         Displays a notification.
-    */
+     */
     function show(title, url) {
         var options = {
             type: 'basic',
@@ -68,7 +68,7 @@
 
     /*
         Update last episode time.
-    */
+     */
     function updateLastEpisode(id, airtime) {
         var subscription = JSON.parse(localStorage.getItem('subscription'));
         for (var i = 0; i < subscription.length; i++) {

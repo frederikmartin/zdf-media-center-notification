@@ -81,6 +81,11 @@ h2 {
     display: inline-block;
 }
 
+.subscription .check-now {
+    width: auto;
+    display: inline-block;
+}
+
 .subscription .unsubscribe {
     width: auto;
     display: inline-block;
