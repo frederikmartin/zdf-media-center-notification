@@ -89,6 +89,7 @@
             var response = x.responseXML;
             var $xml = $(response);
             persistSubscription($xml.find('assetId').text(), $xml.find('title').eq(0).text(), $xml.find('airtime').text());
+            checkSubscriptionForUpdates($xml.find('assetId').text());
             loadSubscription();
         }
 
@@ -138,9 +139,9 @@
             $('.subscription').append('<p>Your current subscription:</p><ul></ul>');
             for (var i = 0; i < subscription.length; i++) {
                 if (subscription[i].lastEpisode !== '') {
-                    $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">last episode: ' + subscription[i].lastEpisode + '</span><span class="check-now"><a href="#" id="' + subscription[i].id + '" alt="check now: ' + subscription[i].title + '" title="check now: ' + subscription[i].title + '">check now</a></span> &nbsp;|&nbsp; <span class="unsubscribe"><a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a></span></div></li>');
+                    $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last"><a href="' + subscription[i].url + '" target="_blank" alt="last episode: ' + subscription[i].lastEpisode + '">last episode: ' + subscription[i].lastEpisode + '</a></span><span class="check-now">(<a href="#" id="' + subscription[i].id + '" alt="check now: ' + subscription[i].title + '" title="check now: ' + subscription[i].title + '">check now</a></span> &nbsp;|&nbsp; <span class="unsubscribe"><a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></div></li>');
                 } else {
-                    $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">no recent episode available</span><span class="check-now"><a href="#" id="' + subscription[i].id + '" alt="check now: ' + subscription[i].title + '" title="check now: ' + subscription[i].title + '">check now</a></span> &nbsp;|&nbsp; <span class="unsubscribe"><a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a></span></div></li>');
+                    $('.subscription ul').append('<li><div class="series"><span class="title">' + subscription[i].title + '</span><span class="last">no recent episode available</span><span class="check-now">(<a href="#" id="' + subscription[i].id + '" alt="check now: ' + subscription[i].title + '" title="check now: ' + subscription[i].title + '">check now</a></span> &nbsp;|&nbsp; <span class="unsubscribe"><a href="#" id="' + subscription[i].id + '" alt="unsubscribe: ' + subscription[i].title + '" title="unsubscribe: ' + subscription[i].title + '">unsubscribe</a>)</span></div></li>');
                 }
                 addClickBinding(subscription[i].id, 'checkNow');
                 addClickBinding(subscription[i].id, 'unsubscribe');
@@ -182,7 +183,9 @@
             if (lastEpisode) {
                 if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
                     show(title, url);
-                    updateLastEpisode(id, airtime);
+                    updateLastEpisode(id, airtime, url);
+                } else {
+                    updateLastEpisode(id, airtime, url);
                 }
             }
         }
@@ -214,11 +217,12 @@
     /*
         Update last episode time.
      */
-    function updateLastEpisode(id, airtime) {
+    function updateLastEpisode(id, airtime, url) {
         var subscription = JSON.parse(localStorage.getItem('subscription'));
         for (var i = 0; i < subscription.length; i++) {
             if (subscription[i].id === id) {
                 subscription[i].lastEpisode = airtime;
+                subscription[i].url = url;
                 localStorage.setItem('subscription', JSON.stringify(subscription));
             }
         }

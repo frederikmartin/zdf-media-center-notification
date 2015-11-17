@@ -38,7 +38,7 @@
 
             if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
                 show(title, url);
-                updateLastEpisode(id, airtime);
+                updateLastEpisode(id, airtime, url);
             }
         }
 
@@ -69,11 +69,12 @@
     /*
         Update last episode time.
      */
-    function updateLastEpisode(id, airtime) {
+    function updateLastEpisode(id, airtime, url) {
         var subscription = JSON.parse(localStorage.getItem('subscription'));
         for (var i = 0; i < subscription.length; i++) {
             if (subscription[i].id === id) {
                 subscription[i].lastEpisode = airtime;
+                subscription[i].url = url;
                 localStorage.setItem('subscription', JSON.stringify(subscription));
             }
         }
