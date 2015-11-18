@@ -15,7 +15,7 @@
     ],
     "options_page": "options.html",
     "background": {
-        "scripts": ["js/jquery-2.1.4.min.js", "js/moment-2.10.6.min.js", "js/background.js"],
+        "page": "background.html",
         "persistent": true
     },
     "web_accessible_resources": [
