@@ -89,8 +89,9 @@ define(['modules/Subject'], function (Subject) {
             x.send();
         },
         checkForUpdates: function (id) {
+            var subscriptions = JSON.parse(localStorage.getItem('subscription'));
+
             if (id !== undefined) {
-                var subscriptions = JSON.parse(localStorage.getItem('subscription'));
                 var lastEpisode;
                 for (var i = 0; i < subscriptions.length; i++) {
                     if (subscriptions[i].id === id) {
@@ -158,7 +159,10 @@ define(['modules/Subject'], function (Subject) {
 
                 x.send();
             } else {
-                console.log('id null');
+                // Check all
+                for (var i = 0; i < subscriptions.length; i++) {
+                    self.checkForUpdates(subscriptions[i].id);
+                }
             }
         }
     }
