@@ -5,14 +5,15 @@ define(function () {
                 var options = {
                     type: 'basic',
                     title: message.data.title,
-                    message: moment().format('DD.MM.YYYY, HH:mm') + ": \nNew episode available.\nClick here to watch it.",
+                    message: "New episode available.\nClick here to watch it.",
                     iconUrl: 'images/zdf-logo_48x48.png'
                 };
 
-                chrome.notifications.create('newEpisode', options, function () {
-                });
-                chrome.notifications.onClicked.addListener(function () {
-                    window.open(message.data.url);
+                chrome.notifications.clear(message.data.title, function () {
+                    chrome.notifications.create(message.data.title, options, null);
+                    chrome.notifications.onClicked.addListener(function () {
+                        window.open(message.data.url);
+                    });
                 });
             }
         }
