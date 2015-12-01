@@ -37,7 +37,7 @@ define(['modules/api'], function (api) {
             }
         },
         updateSubscription: function (message) {
-            if (message.type !== 'search') {
+            if (message.status === 'success' && message.type !== 'search') {
                 if (!localStorage.getItem('subscription')) {
                     var subscriptions = [{
                         'id': message.data.id,
