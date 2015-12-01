@@ -5,7 +5,6 @@ define(function () {
     }
 
     Subject.prototype.observe = function observeObject(obj) {
-        console.log('added new observer');
         this._list.push(obj);
     };
 
@@ -13,7 +12,6 @@ define(function () {
         for (var i = 0, len = this._list.length; i < len; i++) {
             if (this._list[i] === obj) {
                 this._list.splice((i, 1));
-                console.log('remove existing observer');
                 return true;
             }
         }

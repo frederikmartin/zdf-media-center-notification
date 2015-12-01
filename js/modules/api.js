@@ -1,9 +1,11 @@
-define(['modules/Subject', 'modules/storage'], function (Subject, storage) {
+define(['modules/Subject'], function (Subject) {
+    var self = null;
     var apiUrl = null;
     var subject = null;
 
     return {
         init: function () {
+            self = this;
             apiUrl = 'https://www.zdf.de/ZDFmediathek/xmlservice/web/';
             subject = new Subject();
         },
@@ -27,7 +29,7 @@ define(['modules/Subject', 'modules/storage'], function (Subject, storage) {
                 var response = x.responseXML;
                 subject.notify({
                     status: 'success',
-                    type: 'view',
+                    type: 'search',
                     data: response
                 });
             };
@@ -36,7 +38,7 @@ define(['modules/Subject', 'modules/storage'], function (Subject, storage) {
                 $('.result').removeClass('loading');
                 subject.notify({
                     status: 'error',
-                    type: 'view',
+                    type: 'search',
                     data: 'No response from ZDF media center. Please try again'
                 });
             };
@@ -45,7 +47,7 @@ define(['modules/Subject', 'modules/storage'], function (Subject, storage) {
                 $('.result').removeClass('loading');
                 subject.notify({
                     status: 'error',
-                    type: 'view',
+                    type: 'search',
                     data: 'Network error. Please try again'
                 });
             };
@@ -63,23 +65,25 @@ define(['modules/Subject', 'modules/storage'], function (Subject, storage) {
             x.onload = function () {
                 var response = x.responseXML;
                 var $xml = $(response);
-                storage.saveSubscription($xml.find('assetId').text(), $xml.find('title').eq(0).text(), $xml.find('airtime').text());
-                // TODO: api.checkSubscriptionForUpdates($xml.find('assetId').text());
-                // TODO: this.loadSubscription();
+                var id = $xml.find('assetId').text();
 
-                subject.notify({
-                    status: 'success',
-                    type: 'view',
-                    data: null
-                });
+                self.checkForUpdates(id);
             };
 
             x.ontimeout = function () {
-
+                subject.notify({
+                    status: 'error',
+                    type: 'details',
+                    data: 'Subscription failed. Please try again'
+                });
             };
 
             x.onerror = function () {
-                $('.error').show().append('Subscription failed. Please try again');
+                subject.notify({
+                    status: 'error',
+                    type: 'details',
+                    data: 'Subscription failed. Please try again'
+                });
             };
 
             x.send();
@@ -113,20 +117,39 @@ define(['modules/Subject', 'modules/storage'], function (Subject, storage) {
                         }
                     });
 
+                    var data = {
+                        id: id,
+                        title: title,
+                        airtime: airtime,
+                        url: url
+                    };
+                    subject.notify({
+                        status: 'success',
+                        type: 'update',
+                        data: data
+                    });
+
                     if (lastEpisode) {
                         if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
                             // TODO: notification.show(title, url);
-                            // TODO: storage.updateLastEpisode(id, airtime, url);
-                        } else {
-                            // TODO: storage.updateLastEpisode(id, airtime, url);
                         }
                     }
                 };
 
                 x.ontimeout = function () {
+                    subject.notify({
+                        status: 'error',
+                        type: 'update',
+                        data: 'Updating subscriptions failed. Please try again'
+                    });
                 };
 
                 x.onerror = function () {
+                    subject.notify({
+                        status: 'error',
+                        type: 'update',
+                        data: 'Updating subscriptions failed. Please try again'
+                    });
                 };
 
                 x.send();

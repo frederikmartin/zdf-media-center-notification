@@ -1,6 +1,6 @@
 define(['modules/storage', 'modules/api'], function (storage, api) {
 
-    var self;
+    var self = null;
 
     function View() {
         self = this;
@@ -37,12 +37,10 @@ define(['modules/storage', 'modules/api'], function (storage, api) {
     };
 
     View.prototype.updateView = function (message) {
-        storage.loadSubscriptions();
-
         if (message.status === 'error') {
             self.errorOutput(message.data);
         } else if (message.status === 'success') {
-            if (message.type === 'view' || message.type === 'all') {
+            if (message.type === 'search') {
                 self.searchOutput(message.data);
             }
         }
@@ -65,8 +63,8 @@ define(['modules/storage', 'modules/api'], function (storage, api) {
         }
     };
 
-    View.prototype.errorOutput = function (response) {
-        $('.error').show().append(response);
+    View.prototype.errorOutput = function (message) {
+        $('.error').show().append(message);
         return true;
     };
 

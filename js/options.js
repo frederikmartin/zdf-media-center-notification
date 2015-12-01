@@ -10,6 +10,5 @@ require(['modules/View', 'modules/notification', 'modules/storage', 'modules/api
 
     api.init();
     api.addObserver(view.updateView);
-
-    api.checkForUpdates();
+    api.addObserver(storage.updateSubscription);
 });

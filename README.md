@@ -3,7 +3,7 @@ Chrome Extension: ZDF media center notification
 
 Subscribe to your favorite video series in ZDF media center and get prompt notifications about updates. Updates will be served in WebM format to avoid the slow ZDF media center which is based Flash.
 
-**IMPORTANT:** This is not an official chrome extension from ZDF.
+**IMPORTANT:** This is not an official chrome extension of ZDF (ZWEITES DEUTSCHES FERNSEHEN).
 
 Chrome Extension
 ----------------

@@ -1,5 +1,5 @@
-define(function () {
-    var self;
+define(['modules/api'], function (api) {
+    var self = null;
 
     return {
         init: function() {
@@ -28,7 +28,7 @@ define(function () {
 
                     // Click handler
                     $('.subscription ul li .check-now').on('click', '#' + subscriptions[i].id, function () {
-                        // TODO: api.checkSubscriptionForUpdates($(this).attr('id'));
+                        api.checkForUpdates($(this).attr('id'));
                     });
                     $('.subscription ul li .unsubscribe').on('click', '#' + subscriptions[i].id, function () {
                         self.deleteSubscription($(this).attr('id'));
@@ -36,36 +36,40 @@ define(function () {
                 }
             }
         },
-        updateSubscription: function (id, airtime, url) {
-            var subscriptions = JSON.parse(localStorage.getItem('subscription'));
-            for (var i = 0; i < subscriptions.length; i++) {
-                if (subscriptions[i].id === id) {
-                    subscriptions[i].lastEpisode = airtime;
-                    subscriptions[i].url = url;
+        updateSubscription: function (message) {
+            if (message.type !== 'search') {
+                if (!localStorage.getItem('subscription')) {
+                    var subscriptions = [{
+                        'id': message.data.id,
+                        'title': message.data.title,
+                        'lastEpisode': message.data.airtime,
+                        'url': message.data.url
+                    }];
                     localStorage.setItem('subscription', JSON.stringify(subscriptions));
-                }
-            }
-            this.loadSubscription();
-        },
-        saveSubscription: function (assetId, title, airtime) {
-            console.log('assetId: ' + assetId);
-            console.log('title: ' + title);
-            console.log('airtime: ' + airtime);
-            if (!localStorage.getItem('subscription')) {
-                var subscriptions = [{'id': assetId, 'title': title, 'lastEpisode': airtime}];
-                localStorage.setItem('subscription', JSON.stringify(subscriptions));
-            } else {
-                var subscriptions = JSON.parse(localStorage.getItem('subscription'));
-                var seriesExists = false;
-                for (var i = 0; i < subscriptions.length; i++) {
-                    if (subscriptions[i].id === assetId) {
-                        seriesExists = true;
+                } else {
+                    var subscriptions = JSON.parse(localStorage.getItem('subscription'));
+                    var seriesId = null;
+                    for (var i = 0; i < subscriptions.length; i++) {
+                        if (subscriptions[i].id === message.data.id) {
+                            seriesId = subscriptions[i].id;
+                            break;
+                        }
+                    }
+                    if (!seriesId) {
+                        subscriptions.push({
+                            'id': message.data.id,
+                            'title': message.data.title,
+                            'lastEpisode': message.data.airtime,
+                            'url': message.data.url
+                        });
+                        localStorage.setItem('subscription', JSON.stringify(subscriptions));
+                    } else {
+                        subscriptions[i].lastEpisode = message.data.airtime;
+                        subscriptions[i].url = message.data.url;
+                        localStorage.setItem('subscription', JSON.stringify(subscriptions));
                     }
                 }
-                if (!seriesExists) {
-                    subscriptions.push({'id': assetId, 'title': title, 'lastEpisode': airtime});
-                    localStorage.setItem('subscription', JSON.stringify(subscriptions));
-                }
+                self.loadSubscriptions();
             }
         },
         deleteSubscription: function (assetId) {
