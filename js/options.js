@@ -11,4 +11,5 @@ require(['modules/View', 'modules/notification', 'modules/storage', 'modules/api
     api.init();
     api.addObserver(view.updateView);
     api.addObserver(storage.updateSubscription);
+    api.addObserver(notification.create);
 });

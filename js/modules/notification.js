@@ -1,7 +1,7 @@
 define(function () {
     return {
         create: function (message) {
-            if (message.type === 'notification' || message.type === 'all') {
+            if (message.type === 'notification') {
                 var options = {
                     type: 'basic',
                     title: message.data.title,

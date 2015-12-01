@@ -131,7 +131,11 @@ define(['modules/Subject'], function (Subject) {
 
                     if (lastEpisode) {
                         if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
-                            // TODO: notification.show(title, url);
+                            subject.notify({
+                                status: 'success',
+                                type: 'notification',
+                                data: data
+                            });
                         }
                     }
                 };
