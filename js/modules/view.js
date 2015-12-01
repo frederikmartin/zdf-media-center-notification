@@ -40,7 +40,7 @@ define(['modules/storage', 'modules/api'], function (storage, api) {
         storage.loadSubscriptions();
 
         if (message.status === 'error') {
-            this.errorOutput(message.data);
+            self.errorOutput(message.data);
         } else if (message.status === 'success') {
             if (message.type === 'view' || message.type === 'all') {
                 self.searchOutput(message.data);
