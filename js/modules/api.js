@@ -1,12 +1,12 @@
 define(['modules/Subject'], function (Subject) {
     var self = null;
-    var apiUrl = null;
+    var apiBaseUrl = null;
     var subject = null;
 
     return {
         init: function () {
             self = this;
-            apiUrl = 'https://www.zdf.de/ZDFmediathek/xmlservice/web/';
+            apiBaseUrl = 'https://www.zdf.de/ZDFmediathek/xmlservice/web/';
             subject = new Subject();
         },
         addObserver: function (observer) {
@@ -19,74 +19,43 @@ define(['modules/Subject'], function (Subject) {
             $('.error').empty().hide();
             $('.result').empty().addClass('loading');
 
-            var apiCall = apiUrl + 'detailsSuche?searchString=' + encodeURIComponent(series) + '&maxLength=5';
-            var x = new XMLHttpRequest();
-            x.open('GET', apiCall, true);
-            x.timeout = 5000;
-
-            x.onload = function () {
-                $('.result').removeClass('loading');
-                var response = x.responseXML;
-                subject.notify({
-                    status: 'success',
-                    type: 'search',
-                    data: response
-                });
-            };
-
-            x.ontimeout = function () {
-                $('.result').removeClass('loading');
-                subject.notify({
-                    status: 'error',
-                    type: 'search',
-                    data: 'No response from ZDF media center. Please try again'
-                });
-            };
-
-            x.onerror = function () {
-                $('.result').removeClass('loading');
-                subject.notify({
-                    status: 'error',
-                    type: 'search',
-                    data: 'Network error. Please try again'
-                });
-            };
-
-            x.send();
+            var apiUrl = apiBaseUrl + 'detailsSuche?searchString=' + encodeURIComponent(series) + '&maxLength=5';
+            $.get(apiUrl, function (data, status) {
+                if (status === 'success') {
+                    $('.result').removeClass('loading');
+                    subject.notify({
+                        status: 'success',
+                        type: 'search',
+                        data: data
+                    });
+                } else {
+                    $('.result').removeClass('loading');
+                    subject.notify({
+                        status: 'error',
+                        type: 'search',
+                        data: 'No response from ZDF media center. Please try again'
+                    });
+                }
+            });
         },
         loadDetails: function (id) {
             $('.error').empty().hide();
 
-            var apiCall = apiUrl + 'aktuellste?id=' + encodeURIComponent(id) + '&maxLength=1';
-            var x = new XMLHttpRequest();
-            x.open('GET', apiCall, true);
-            x.timeout = 5000;
+            var apiUrl = apiBaseUrl + 'aktuellste?id=' + encodeURIComponent(id) + '&maxLength=1';
+            $.get(apiUrl, function (data, status) {
+                if (status === 'success') {
+                    var $xml = $(data);
+                    var id = $xml.find('assetId').text();
 
-            x.onload = function () {
-                var response = x.responseXML;
-                var $xml = $(response);
-                var id = $xml.find('assetId').text();
-
-                self.checkForUpdates(id);
-            };
-
-            x.ontimeout = function () {
-                subject.notify({
-                    status: 'error',
-                    type: 'details',
-                    data: 'Subscription failed. Please try again'
-                });
-            };
-
-            x.onerror = function () {
-                subject.notify({
-                    status: 'error',
-                    type: 'details',
-                    data: 'Subscription failed. Please try again'
-                });
-            };
-
-            x.send();
+                    self.checkForUpdates(id);
+                } else {
+                    subject.notify({
+                        status: 'error',
+                        type: 'details',
+                        data: 'Subscription failed. Please try again'
+                    });
+                }
+            });
         },
         checkForUpdates: function (id) {
             var subscriptions = JSON.parse(localStorage.getItem('subscription'));
@@ -99,65 +68,50 @@ define(['modules/Subject'], function (Subject) {
                     }
                 }
 
-                var apiCall = apiUrl + 'beitragsDetails?id=' + encodeURIComponent(id) + '&ak=web';
-                var x = new XMLHttpRequest();
-                x.open('GET', apiCall, true);
-                x.timeout = 5000;
+                var apiUrl = apiBaseUrl + 'beitragsDetails?id=' + encodeURIComponent(id) + '&ak=web';
+                $.get(apiUrl, function (data, status) {
+                    if (status === 'success') {
+                        var $xml = $(data);
 
-                x.onload = function () {
-                    var response = x.responseXML;
-                    var $xml = $(response);
+                        var title = $xml.find('title').eq(0).text();
+                        var airtime = $xml.find('airtime').text();
+                        var url = '';
 
-                    var title = $xml.find('title').eq(0).text();
-                    var airtime = $xml.find('airtime').text();
-                    var url = '';
+                        $xml.find('formitaet[basetype="vp8_vorbis_webm_http_na_na"]').each(function () {
+                            if ($(this).find('quality').text() === localStorage.quality) {
+                                url = $(this).find('url').text();
+                            }
+                        });
 
-                    $xml.find('formitaet[basetype="vp8_vorbis_webm_http_na_na"]').each(function () {
-                        if ($(this).find('quality').text() === localStorage.quality) {
-                            url = $(this).find('url').text();
+                        var data = {
+                            id: id,
+                            title: title,
+                            airtime: airtime,
+                            url: url
+                        };
+                        subject.notify({
+                            status: 'success',
+                            type: 'update',
+                            data: data
+                        });
+
+                        if (lastEpisode) {
+                            if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
+                                subject.notify({
+                                    status: 'success',
+                                    type: 'notification',
+                                    data: data
+                                });
+                            }
                         }
-                    });
-
-                    var data = {
-                        id: id,
-                        title: title,
-                        airtime: airtime,
-                        url: url
-                    };
-                    subject.notify({
-                        status: 'success',
-                        type: 'update',
-                        data: data
-                    });
-
-                    if (lastEpisode) {
-                        if (moment(lastEpisode, 'DD.MM.YYYY HH:mm') < moment(airtime, 'DD.MM.YYYY HH:mm')) {
-                            subject.notify({
-                                status: 'success',
-                                type: 'notification',
-                                data: data
-                            });
-                        }
+                    } else {
+                        subject.notify({
+                            status: 'error',
+                            type: 'update',
+                            data: 'Updating subscriptions failed. Please try again'
+                        });
                     }
-                };
-
-                x.ontimeout = function () {
-                    subject.notify({
-                        status: 'error',
-                        type: 'update',
-                        data: 'Updating subscriptions failed. Please try again'
-                    });
-                };
-
-                x.onerror = function () {
-                    subject.notify({
-                        status: 'error',
-                        type: 'update',
-                        data: 'Updating subscriptions failed. Please try again'
-                    });
-                };
-
-                x.send();
+                });
             } else {
                 // Check all
                 for (var i = 0; i < subscriptions.length; i++) {
